@@ -5,27 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Telefire – בקשת הצעת מחיר</title>
   <style>
-    :root{
-      --brand-red:#d62828;
-      --bg:#f7f7f8; --card:#ffffff; --ink:#0f172a;
-      --muted:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.08);
-    }
+    :root{--brand-red:#d62828;--bg:#f7f7f8;--card:#fff;--ink:#0f172a;--muted:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.08)}
     html,body{height:100%;-webkit-text-size-adjust:100%}
-    body{margin:0;background:var(--bg);color:var(--ink);
-      font-family:Heebo,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
-    /* רקע עדין מהקובץ background.png אם קיים */
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Heebo,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
     body::before{content:"";position:fixed;inset:0;background:url('background.png') center/cover no-repeat;opacity:.07;pointer-events:none;z-index:0}
     .container{position:relative;z-index:1;max-width:1024px;margin:20px auto;padding:0 16px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;
-      background:rgba(255,255,255,.9);backdrop-filter:blur(6px);border:1px solid var(--border);
-      border-radius:16px;padding:12px 16px;box-shadow:var(--shadow)}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(255,255,255,.9);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:16px;padding:12px 16px;box-shadow:var(--shadow)}
     .brand{display:flex;align-items:center;gap:12px}
     .brand img{height:44px;width:auto;object-fit:contain}
     .title{font-weight:800;letter-spacing:.2px}
     .badge{font-weight:700;color:#fff;background:var(--brand-red);padding:6px 10px;border-radius:999px;font-size:.9rem}
     .card{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
-    h1{font-size:1.35rem;margin:0 0 8px}
-    h2{font-size:1.05rem;margin:20px 0 10px;color:var(--brand-red)}
+    h1{font-size:1.35rem;margin:0 0 8px} h2{font-size:1.05rem;margin:20px 0 10px;color:var(--brand-red)}
     label{display:block;font-weight:600;margin:8px 0 6px}
     input,select,textarea,button{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:12px;font-size:16px;background:#fff}
     textarea{min-height:96px;resize:vertical}
@@ -33,19 +24,13 @@
     .col-12{grid-column:span 12}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}
     @media (max-width:768px){.col-6,.col-4,.col-3{grid-column:span 12}h1{font-size:1.2rem}h2{font-size:1rem;margin-top:16px}}
     .checkboxes{display:flex;flex-wrap:wrap;gap:10px}
-    .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;cursor:pointer}
     .muted{color:var(--muted);font-size:.92rem}
     .actions{display:flex;gap:10px;margin-top:16px}
-    .actions button{cursor:pointer}
-    .primary{background:var(--brand-red);color:#fff}
-    .ghost{background:#f1f2f5}
-    table{width:100%;border-collapse:collapse;background:#fff}
-    th,td{border:1px solid var(--border);padding:8px 10px;text-align:right}
-    th{background:#f8fafc}
-    .required::after{content:" *";color:var(--brand-red)}
-    .footer{margin-top:14px;font-size:.85rem;color:var(--muted)}
-
-    /* טבלה רספונסיבית במובייל ככרטיסים */
+    .actions button{cursor:pointer} .primary{background:var(--brand-red);color:#fff} .ghost{background:#f1f2f5}
+    table{width:100%;border-collapse:collapse;background:#fff} th,td{border:1px solid var(--border);padding:8px 10px;text-align:right} th{background:#f8fafc}
+    .required::after{content:" *";color:var(--brand-red)} .footer{margin-top:14px;font-size:.85rem;color:var(--muted)}
+    /* טבלאות רספונסיביות ככרטיסים במובייל */
     @media (max-width:768px){
       table.responsive{border:0}
       table.responsive thead{display:none}
@@ -55,13 +40,23 @@
       table.responsive td::before{content:attr(data-label);font-weight:700;color:#444}
       .actions{flex-direction:column}.actions button{width:100%}
     }
+    /* כן/לא כצ'יפים אלגנטיים */
+    .yn{display:flex;gap:8px;flex-wrap:wrap}
+    .yn input{display:none}
+    .yn label{padding:8px 12px;border:1px solid var(--border);border-radius:999px;cursor:pointer;background:#fff}
+    .yn input:checked+label{border-color:var(--brand-red);box-shadow:0 0 0 2px rgba(214,40,40,.15)}
+    .yn label::before{content:"";display:inline-block;width:1em;height:1em;margin-left:6px;border:1px solid #cbd5e1;border-radius:4px;vertical-align:-2px}
+    .yn input:checked+label::before{content:"✔";display:inline-grid;place-items:center;border-color:var(--brand-red);color:#fff;background:var(--brand-red)}
+    /* מסגרת לכל לוח */
+    .board{border:1px solid var(--border);border-radius:14px;padding:12px;margin:10px 0;background:#fff}
+    .board .board-head{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:8px}
+    .board .del{background:#f1f2f5}
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div class="brand">
-        <!-- החלף לוגו לקובץ שלך אם תרצה -->
         <img src="logo.png" alt="Telefire logo" onerror="this.style.display='none'">
         <div class="title">Telefire</div>
       </div>
@@ -69,7 +64,6 @@
     </header>
 
     <div class="card">
-      <!-- מחובר ל-Make לפי ה-URL שסיפקת -->
       <form id="rfqForm" action="https://hook.eu2.make.com/qeec8sdrvoxa932ipvr8bm7tv41rlp8n" method="POST">
         <h1>פרטי טופס</h1>
 
@@ -89,8 +83,9 @@
         <div class="grid">
           <div class="col-3"><label>פנל</label><input name="פנל"></div>
           <div class="col-3"><label>לולאה</label><input name="לולאה"></div>
-          <div class="col-3"><label>כמות כתובות נדרשות</label><input type="number" name="כמות כתובות נדרשות" min="0"></div>
-          <div class="col-3"><label>כמות כתובות פנויות בלולאה</label><input type="number" name="כמות כתובות פנויות בלולאה" min="0"></div>
+          <div class="col-3"><label>כמות כתובות נדרשות</label><input type="number" id="reqAddr" name="כמות כתובות נדרשות" min="0"></div>
+          <div class="col-3"><label>כמות כתובות פנויות בלולאה</label><input type="number" id="freeAddr" name="כמות כתובות פנויות בלולאה" min="0"></div>
+          <div class="col-12"><div id="addrWarn" class="muted" style="color:#b91c1c;display:none">כמות כתובות נדרשות לא יכולה להיות גדולה מכמות הכתובות הפנויות בלולאה.</div></div>
         </div>
 
         <h2>תשתית</h2>
@@ -118,41 +113,51 @@
               <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="תעלה כפולה"> תעלה כפולה</label>
             </div>
           </div>
-          <div class="col-3"><label>קיים V24</label><select name="קיים V24"><option></option><option>כן</option><option>לא</option></select></div>
-          <div class="col-3"><label>נדרש הוספת ספק</label><select name="נדרש הוספת ספק"><option></option><option>כן</option><option>לא</option></select></div>
+          <div class="col-3">
+            <label>קיים V24</label>
+            <div class="yn">
+              <input type="radio" id="v24y" name="קיים V24" value="כן"><label for="v24y">כן</label>
+              <input type="radio" id="v24n" name="קיים V24" value="לא"><label for="v24n">לא</label>
+            </div>
+          </div>
+          <div class="col-3">
+            <label>נדרש הוספת ספק</label>
+            <div class="yn">
+              <input type="radio" id="psuy" name="נדרש הוספת ספק" value="כן"><label for="psuy">כן</label>
+              <input type="radio" id="psun" name="נדרש הוספת ספק" value="לא"><label for="psun">לא</label>
+            </div>
+          </div>
         </div>
 
         <h2>נתוני לוח חשמל</h2>
-        <div class="grid">
-          <div class="col-4"><label>מידות לוח – רוחב (מ״מ)</label><input type="number" name="מידות לוח רוחב" min="0"></div>
-          <div class="col-4"><label>מידות לוח – גובה (מ״מ)</label><input type="number" name="מידות לוח גובה" min="0"></div>
-          <div class="col-4"><label>מידות לוח – עומק (מ״מ)</label><input type="number" name="מידות לוח עומק" min="0"></div>
-          <div class="col-3"><label>האם קיים ניתוק בלוח</label><select name="ניתוק בלוח"><option></option><option>כן</option><option>לא</option></select></div>
-          <div class="col-3"><label>הלוח מחורץ</label><select name="הלוח מחורץ"><option></option><option>כן</option><option>לא</option></select></div>
-          <div class="col-3"><label>הלוח אטום</label><select name="הלוח אטום"><option></option><option>כן</option><option>לא</option></select></div>
-          <div class="col-3"><label>מספר הנחירים הנדרש</label><input type="number" name="מספר נחירים" min="0"></div>
-          <div class="col-3"><label>האם יש מחיצות בלוח</label><select name="יש מחיצות"><option></option><option>כן</option><option>לא</option></select></div>
-          <div class="col-9"><label>במידה ויש מחיצות – פרט מיקומים</label><input name="מיקומי מחיצות"></div>
-          <div class="col-12"><label>הערות נוספות בנוגע ללוח חשמל</label><textarea name="הערות לוח חשמל"></textarea></div>
-        </div>
+        <div id="boards"></div>
+        <div class="actions"><button type="button" class="ghost" id="addBoardBtn">הוסף לוח</button></div>
 
         <h2>אביזרים נדרשים להצעה</h2>
-        <p class="muted">הוסף שורות לפי הצורך.</p>
+        <p class="muted">השארנו רק: אביזר, כמות, הערה.</p>
         <table id="itemsTable" class="responsive" aria-label="אביזרים">
-          <thead>
-            <tr><th>אביזר</th><th>כמות</th><th>מיקום</th><th>מהות התקלה/הדרישה</th><th>מה נדרש על מנת לבצע</th><th>מחיקה</th></tr>
-          </thead>
+          <thead><tr><th>אביזר</th><th>כמות</th><th>הערה</th><th>מחיקה</th></tr></thead>
           <tbody></tbody>
         </table>
-        <div class="actions">
-          <button type="button" class="ghost" onclick="addItemRow()">הוסף שורה</button>
-        </div>
+        <div class="actions"><button type="button" class="ghost" onclick="addItemRow()">הוסף שורה</button></div>
 
         <h2>תנאי שטח</h2>
         <div class="grid">
           <div class="col-4"><label>גובה ההתקנה (מ׳)</label><input type="number" name="גובה התקנה" min="0" step="0.1"></div>
-          <div class="col-4"><label>התקנה בגובה</label><select name="התקנה בגובה"><option></option><option>כן</option><option>לא</option></select></div>
-          <div class="col-4"><label>נדרשת במת הרמה</label><input name="במת הרמה"></div>
+          <div class="col-4">
+            <label>התקנה בגובה</label>
+            <div class="yn">
+              <input type="radio" id="highy" name="התקנה בגובה" value="כן"><label for="highy">כן</label>
+              <input type="radio" id="highn" name="התקנה בגובה" value="לא"><label for="highn">לא</label>
+            </div>
+          </div>
+          <div class="col-4">
+            <label>נדרשת במת הרמה</label>
+            <div class="yn">
+              <input type="radio" id="platfy" name="במת הרמה" value="כן"><label for="platfy">כן</label>
+              <input type="radio" id="platfn" name="במת הרמה" value="לא"><label for="platfn">לא</label>
+            </div>
+          </div>
           <div class="col-12"><label>תנאי שטח נוספים</label><textarea name="תנאי שטח נוספים"></textarea></div>
         </div>
 
@@ -164,35 +169,104 @@
           <button type="reset" class="ghost">נקה טופס</button>
         </div>
 
-        <p class="footer">טיפ: להעלות קבצים `logo.png` ו-`background.png` לשורש הריפו לשילוב לוגו ורקע.</p>
+        <p class="footer">טיפ: העלה `logo.png` ו־`background.png` לשורש הריפו ללוגו ורקע.</p>
       </form>
     </div>
   </div>
 
   <script>
+    /* צמצום טבלת אביזרים: אביזר, כמות, הערה */
     const ACCESSORIES=["","גלאי","בסיס","הגבהה","לחצן אדום","לחצן צהוב","לחצן אדום מוגן מים","כרטיס 723","כרטיס 741","כרטיס 705","כרטיס 805","מנורת סימון","קופסת כרטיסים","קופסת חיבורים","כובע לגלאי בלוח","FLAP","צופר חיצוני","צופר פנימי","רמקול שקוע","רמקול ירח","שופר","פנל משנה","אחר"];
     function accessorySelect(name){const sel=document.createElement('select');sel.name=name;for(const opt of ACCESSORIES){const o=document.createElement('option');o.value=opt;o.textContent=opt;sel.appendChild(o)}return sel}
-    function addItemRow(){const tbody=document.querySelector('#itemsTable tbody');const tr=document.createElement('tr');
-      const td1=document.createElement('td');td1.appendChild(accessorySelect('אביזר[]'));
-      const td2=document.createElement('td');const qty=document.createElement('input');qty.type='number';qty.min='0';qty.name='כמות[]';td2.appendChild(qty);
-      const td3=document.createElement('td');const loc=document.createElement('input');loc.type='text';loc.name='מיקום[]';td3.appendChild(loc);
-      const td4=document.createElement('td');const issue=document.createElement('input');issue.type='text';issue.name='מהות התקלה/הדרישה[]';td4.appendChild(issue);
-      const td5=document.createElement('td');const req=document.createElement('input');req.type='text';req.name='מה נדרש על מנת לבצע[]';td5.appendChild(req);
-      const td6=document.createElement('td');const del=document.createElement('button');del.type='button';del.textContent='מחיקה';del.onclick=()=>tr.remove();td6.appendChild(del);
-      tr.append(td1,td2,td3,td4,td5,td6);tbody.appendChild(tr);
-      addLabels();
+    function addItemRow(){
+      const tbody=document.querySelector('#itemsTable tbody'); const tr=document.createElement('tr');
+      const td1=document.createElement('td'); td1.setAttribute('data-label','אביזר'); td1.appendChild(accessorySelect('אביזר[]'));
+      const td2=document.createElement('td'); td2.setAttribute('data-label','כמות'); const qty=document.createElement('input'); qty.type='number'; qty.min='0'; qty.name='כמות[]'; td2.appendChild(qty);
+      const td3=document.createElement('td'); td3.setAttribute('data-label','הערה'); const note=document.createElement('input'); note.type='text'; note.name='הערה[]'; td3.appendChild(note);
+      const td4=document.createElement('td'); td4.setAttribute('data-label','מחיקה'); const del=document.createElement('button'); del.type='button'; del.textContent='מחיקה'; del.onclick=()=>tr.remove(); td4.appendChild(del);
+      tr.append(td1,td2,td3,td4); tbody.appendChild(tr);
     }
-    function addLabels(){const tbl=document.getElementById('itemsTable');if(!tbl)return;
-      const heads=[...tbl.querySelectorAll('thead th')].map(th=>th.textContent.trim());
-      tbl.querySelectorAll('tbody tr').forEach(tr=>[...tr.children].forEach((td,i)=>td.setAttribute('data-label',heads[i]||'')));
+
+    /* לוחות חשמל: הפרדת טבלה 2 (רוחב/גובה/עומק) ושדות שמחוצה לה, וכפתור "הוסף לוח" */
+    let boardIdx=0;
+    function ynGroup(name, idBase){
+      const wrap=document.createElement('div'); wrap.className='yn';
+      const y=document.createElement('input'); y.type='radio'; y.id=idBase+'y'; y.name=name; y.value='כן';
+      const yl=document.createElement('label'); yl.htmlFor=y.id; yl.textContent='כן';
+      const n=document.createElement('input'); n.type='radio'; n.id=idBase+'n'; n.name=name; n.value='לא';
+      const nl=document.createElement('label'); nl.htmlFor=n.id; nl.textContent='לא';
+      wrap.append(y,yl,n,nl); return wrap;
     }
-    addItemRow();
+    function addBoard(){
+      boardIdx++;
+      const wrap=document.createElement('section'); wrap.className='board';
+      wrap.innerHTML = `
+        <div class="board-head">
+          <strong>לוח ${boardIdx}</strong>
+          <button type="button" class="del" aria-label="מחיקת לוח">מחק לוח</button>
+        </div>
+        <div class="muted" style="margin-bottom:6px">טבלה 2 – מידות</div>
+        <table class="responsive" aria-label="טבלה 2 – מידות">
+          <thead><tr><th>רוחב (מ״מ)</th><th>גובה (מ״מ)</th><th>עומק (מ״מ)</th></tr></thead>
+          <tbody>
+            <tr>
+              <td data-label="רוחב (מ״מ)"><input type="number" name="לוח_${boardIdx}_רוחב" min="0"></td>
+              <td data-label="גובה (מ״מ)"><input type="number" name="לוח_${boardIdx}_גובה" min="0"></td>
+              <td data-label="עומק (מ״מ)"><input type="number" name="לוח_${boardIdx}_עומק" min="0"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="grid">
+          <div class="col-3"><label>מחורץ</label><div id="g_${boardIdx}_groove" class="yn"></div></div>
+          <div class="col-3"><label>אטום</label><div id="g_${boardIdx}_seal" class="yn"></div></div>
+          <div class="col-3"><label>מחיצות בנפרד</label><div id="g_${boardIdx}_parts_sep" class="yn"></div></div>
+          <div class="col-3"><label>מחיצות צמודות</label><div id="g_${boardIdx}_parts_adj" class="yn"></div></div>
+
+          <div class="col-3"><label>מתחת ללוח</label><div id="g_${boardIdx}_under" class="yn"></div></div>
+          <div class="col-3"><label>מתחת – מספר נחירים</label><input type="number" name="לוח_${boardIdx}_נחירים_מתחת" min="0"></div>
+
+          <div class="col-6"><label>מיקומי מחיצות</label><input name="לוח_${boardIdx}_מיקומי_מחיצות"></div>
+          <div class="col-12"><label>הערות</label><input name="לוח_${boardIdx}_הערות"></div>
+        </div>
+      `;
+      // יצירת קבוצות כן/לא לכל שדה לוגי
+      wrap.querySelector('#g_'+boardIdx+'_groove').appendChild(ynGroup('לוח_'+boardIdx+'_מחורץ','groove'+boardIdx));
+      wrap.querySelector('#g_'+boardIdx+'_seal').appendChild(ynGroup('לוח_'+boardIdx+'_אטום','seal'+boardIdx));
+      wrap.querySelector('#g_'+boardIdx+'_parts_sep').appendChild(ynGroup('לוח_'+boardIdx+'_מחיצות_בנפרד','partssep'+boardIdx));
+      wrap.querySelector('#g_'+boardIdx+'_parts_adj').appendChild(ynGroup('לוח_'+boardIdx+'_מחיצות_צמודות','partsadj'+boardIdx));
+      wrap.querySelector('#g_'+boardIdx+'_under').appendChild(ynGroup('לוח_'+boardIdx+'_מתחת_ללוח','under'+boardIdx));
+
+      wrap.querySelector('.del').onclick=()=>wrap.remove();
+      document.getElementById('boards').appendChild(wrap);
+    }
+    document.getElementById('addBoardBtn').addEventListener('click', addBoard);
+
+    /* ולידציה: "כתובות נדרשות" ≤ "כתובות פנויות בלולאה" */
+    const reqAddr=document.getElementById('reqAddr');
+    const freeAddr=document.getElementById('freeAddr');
+    const addrWarn=document.getElementById('addrWarn');
+    function checkAddr(){
+      const r=Number(reqAddr.value||0), f=Number(freeAddr.value||0);
+      const bad = r>f && f>0;
+      addrWarn.style.display = bad ? 'block' : 'none';
+      return !bad;
+    }
+    reqAddr.addEventListener('input',checkAddr);
+    freeAddr.addEventListener('input',checkAddr);
+
+    /* שורת התחלה */
+    addBoard(); // לוח ראשון ברירת מחדל
+    (function initItems(){ const btn=document.createElement('button'); btn.type='button'; })();
+    (function firstItem(){ addItemRow(); })();
+
+    /* מניעת שליחה אם יש שגיאת כתובות */
     document.getElementById('rfqForm').addEventListener('submit',e=>{
       const tech=e.target.querySelector('input[name="שם הטכנאי"]');
       const client=e.target.querySelector('input[name="שם הלקוח"]');
-      if(!tech.value.trim()||!client.value.trim()){alert('שם הטכנאי ושם הלקוח הם שדות חובה.');e.preventDefault();}
+      if(!tech.value.trim()||!client.value.trim()){ alert('שם הטכנאי ושם הלקוח הם שדות חובה.'); e.preventDefault(); return; }
+      if(!checkAddr()){ e.preventDefault(); alert('כמות כתובות נדרשות לא יכולה להיות גדולה מכמות הכתובות הפנויות בלולאה.'); }
     });
-    addLabels();
   </script>
 </body>
 </html>
