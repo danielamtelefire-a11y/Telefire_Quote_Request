@@ -3,319 +3,196 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>בקשת הצעת מחיר</title>
+  <title>Telefire – בקשת הצעת מחיר</title>
   <style>
-    html, body { margin:0; padding:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; background:#f7f7f8; color:#111; }
-    .container { max-width: 980px; margin: 24px auto; padding: 24px; background:#fff; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.06); }
-    h1 { font-size: 1.6rem; margin: 0 0 16px; }
-    h2 { font-size: 1.15rem; margin-top: 28px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
-    .col-12 { grid-column: span 12; } .col-6 { grid-column: span 6; } .col-4 { grid-column: span 4; } .col-3 { grid-column: span 3; }
-    label { display:block; font-weight:600; margin: 8px 0 6px; }
-    input[type="text"], input[type="number"], input[type="email"], textarea, select {
-      width: 100%; padding: 10px 12px; border:1px solid #dcdde2; border-radius: 10px; background:#fafafa;
+    :root{
+      --brand-red:#d62828;
+      --bg:#f7f7f8; --card:#ffffff; --ink:#0f172a;
+      --muted:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.08);
     }
-    textarea { min-height: 90px; resize: vertical; }
-    .row { display:flex; gap:12px; align-items:center; }
-    .checkboxes { display:flex; flex-wrap: wrap; gap:10px; }
-    .chip { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border:1px solid #dcdde2; border-radius: 999px; background:#fafafa; }
-    .note { font-size: .9rem; color:#666; }
-    .actions { margin-top: 24px; display:flex; gap:12px; }
-    button {
-      appearance: none; border:0; border-radius: 12px; padding: 12px 16px; font-weight:700; cursor:pointer;
+    html,body{height:100%;-webkit-text-size-adjust:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);
+      font-family:Heebo,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
+    /* רקע עדין מהקובץ background.png אם קיים */
+    body::before{content:"";position:fixed;inset:0;background:url('background.png') center/cover no-repeat;opacity:.07;pointer-events:none;z-index:0}
+    .container{position:relative;z-index:1;max-width:1024px;margin:20px auto;padding:0 16px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;
+      background:rgba(255,255,255,.9);backdrop-filter:blur(6px);border:1px solid var(--border);
+      border-radius:16px;padding:12px 16px;box-shadow:var(--shadow)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:44px;width:auto;object-fit:contain}
+    .title{font-weight:800;letter-spacing:.2px}
+    .badge{font-weight:700;color:#fff;background:var(--brand-red);padding:6px 10px;border-radius:999px;font-size:.9rem}
+    .card{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+    h1{font-size:1.35rem;margin:0 0 8px}
+    h2{font-size:1.05rem;margin:20px 0 10px;color:var(--brand-red)}
+    label{display:block;font-weight:600;margin:8px 0 6px}
+    input,select,textarea,button{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:12px;font-size:16px;background:#fff}
+    textarea{min-height:96px;resize:vertical}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .col-12{grid-column:span 12}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}
+    @media (max-width:768px){.col-6,.col-4,.col-3{grid-column:span 12}h1{font-size:1.2rem}h2{font-size:1rem;margin-top:16px}}
+    .checkboxes{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff}
+    .muted{color:var(--muted);font-size:.92rem}
+    .actions{display:flex;gap:10px;margin-top:16px}
+    .actions button{cursor:pointer}
+    .primary{background:var(--brand-red);color:#fff}
+    .ghost{background:#f1f2f5}
+    table{width:100%;border-collapse:collapse;background:#fff}
+    th,td{border:1px solid var(--border);padding:8px 10px;text-align:right}
+    th{background:#f8fafc}
+    .required::after{content:" *";color:var(--brand-red)}
+    .footer{margin-top:14px;font-size:.85rem;color:var(--muted)}
+
+    /* טבלה רספונסיבית במובייל ככרטיסים */
+    @media (max-width:768px){
+      table.responsive{border:0}
+      table.responsive thead{display:none}
+      table.responsive,table.responsive tbody,table.responsive tr,table.responsive td{display:block;width:100%}
+      table.responsive tr{background:#fff;border:1px solid var(--border);border-radius:12px;padding:8px 10px;margin-bottom:10px}
+      table.responsive td{border:0;padding:8px 0;display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
+      table.responsive td::before{content:attr(data-label);font-weight:700;color:#444}
+      .actions{flex-direction:column}.actions button{width:100%}
     }
-    .primary { background:#111; color:#fff; }
-    .ghost { background:#f1f2f5; color:#111; }
-    table { width:100%; border-collapse: collapse; background:#fff; }
-    th, td { border:1px solid #e8e8ee; padding:8px 10px; text-align:right; }
-    th { background:#fafafa; }
-    .muted { color:#777; font-size:.9rem; }
-    .required::after { content:" *"; color:#d00; }
-    .footer { margin-top:18px; font-size:.85rem; color:#666; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>בקשת הצעת מחיר</h1>
-    <!-- Replace action URL with your Formspree endpoint -->
-    <form id="rfqForm" action="https://hook.eu2.make.com/qeec8sdrvoxa932ipvr8bm7tv41rlp8n" method="POST">
-      
-      <h2>פרטי הלקוח</h2>
-      <div class="grid">
-        <div class="col-4">
-          <label class="required">שם הטכנאי</label>
-          <input name="שם הטכנאי" type="text" required>
-        </div>
-        <div class="col-4">
-          <label class="required">שם הלקוח</label>
-          <input name="שם הלקוח" type="text" required>
-        </div>
-        <div class="col-4">
-          <label>איש קשר לקריאה</label>
-          <input name="איש קשר לקריאה" type="text">
-        </div>
-        <div class="col-6">
-          <label>כתובת לקריאה</label>
-          <input name="כתובת לקריאה" type="text">
-        </div>
-        <div class="col-6">
-          <label>מיקום באתר לו מיועדת ההצעה</label>
-          <input name="מיקום באתר" type="text">
-        </div>
-        <div class="col-6">
-          <label>איש קשר מלווה בסיור מטעם הלקוח</label>
-          <input name="איש קשר מלווה" type="text">
-        </div>
-        <div class="col-6">
-          <label>שם איש קשר – מזמין ההצעה מטעם הלקוח</label>
-          <input name="שם איש קשר מזמין" type="text">
-        </div>
-        <div class="col-12">
-          <label>מהות העבודה</label>
-          <textarea name="מהות העבודה"></textarea>
-        </div>
+    <header>
+      <div class="brand">
+        <!-- החלף לוגו לקובץ שלך אם תרצה -->
+        <img src="logo.png" alt="Telefire logo" onerror="this.style.display='none'">
+        <div class="title">Telefire</div>
       </div>
+      <div class="badge">בקשת הצעת מחיר</div>
+    </header>
 
-      <h2>פרטים ברכזת</h2>
-      <div class="grid">
-        <div class="col-3">
-          <label>פנל</label>
-          <input name="פנל" type="text">
-        </div>
-        <div class="col-3">
-          <label>לולאה</label>
-          <input name="לולאה" type="text">
-        </div>
-        <div class="col-3">
-          <label>כמות כתובות נדרשות</label>
-          <input name="כמות כתובות נדרשות" type="number" min="0">
-        </div>
-        <div class="col-3">
-          <label>כמות כתובות פנויות בלולאה</label>
-          <input name="כמות כתובות פנויות בלולאה" type="number" min="0">
-        </div>
-      </div>
+    <div class="card">
+      <!-- מחובר ל-Make לפי ה-URL שסיפקת -->
+      <form id="rfqForm" action="https://hook.eu2.make.com/qeec8sdrvoxa932ipvr8bm7tv41rlp8n" method="POST">
+        <h1>פרטי טופס</h1>
 
-      <h2>תשתית</h2>
-      <div class="grid">
-        <div class="col-6">
-          <label>האם נדרשת הכנת תשתית</label>
-          <select name="האם נדרשת הכנת תשתית">
-            <option value="">בחר</option>
-            <option>כן</option>
-            <option>לא</option>
-            <option>תשתית קיימת או תוכן ע״י הלקוח</option>
-            <option>קיימת תשתית חלקית יש להשלים</option>
-          </select>
+        <h2>פרטי הלקוח</h2>
+        <div class="grid">
+          <div class="col-4"><label class="required">שם הטכנאי</label><input name="שם הטכנאי" required></div>
+          <div class="col-4"><label class="required">שם הלקוח</label><input name="שם הלקוח" required></div>
+          <div class="col-4"><label>איש קשר לקריאה</label><input name="איש קשר לקריאה"></div>
+          <div class="col-6"><label>כתובת לקריאה</label><input name="כתובת לקריאה"></div>
+          <div class="col-6"><label>מיקום באתר לו מיועדת ההצעה</label><input name="מיקום באתר"></div>
+          <div class="col-6"><label>איש קשר מלווה בסיור מטעם הלקוח</label><input name="איש קשר מלווה"></div>
+          <div class="col-6"><label>שם איש קשר – מזמין ההצעה מטעם הלקוח</label><input name="שם איש קשר מזמין"></div>
+          <div class="col-12"><label>מהות העבודה</label><textarea name="מהות העבודה"></textarea></div>
         </div>
-        <div class="col-6">
-          <label>אורך התשתית שנדרש להכין (מ׳)</label>
-          <input name="אורך התשתית" type="number" min="0" step="0.1">
+
+        <h2>פרטים ברכזת</h2>
+        <div class="grid">
+          <div class="col-3"><label>פנל</label><input name="פנל"></div>
+          <div class="col-3"><label>לולאה</label><input name="לולאה"></div>
+          <div class="col-3"><label>כמות כתובות נדרשות</label><input type="number" name="כמות כתובות נדרשות" min="0"></div>
+          <div class="col-3"><label>כמות כתובות פנויות בלולאה</label><input type="number" name="כמות כתובות פנויות בלולאה" min="0"></div>
         </div>
-        <div class="col-6">
-          <label>סוג כבל</label>
-          <select name="סוג כבל">
-            <option value="">בחר</option>
-            <option>NYY</option>
-            <option>2 גיד</option>
-            <option>4 גיד</option>
-            <option>רב-גידי</option>
-          </select>
-        </div>
-        <div class="col-12">
-          <label>מעביר כבל</label>
-          <div class="checkboxes">
-            <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="מריכף"> מריכף</label>
-            <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="מרירון"> מרירון</label>
-            <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="תעלת אצבע"> תעלת אצבע</label>
-            <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="תעלה כפולה"> תעלה כפולה</label>
+
+        <h2>תשתית</h2>
+        <div class="grid">
+          <div class="col-6">
+            <label>האם נדרשת הכנת תשתית</label>
+            <select name="האם נדרשת הכנת תשתית">
+              <option value="">בחר</option><option>כן</option><option>לא</option>
+              <option>תשתית קיימת או תוכן ע״י הלקוח</option><option>קיימת תשתית חלקית יש להשלים</option>
+            </select>
           </div>
+          <div class="col-6"><label>אורך התשתית שנדרש להכין (מ׳)</label><input type="number" name="אורך התשתית" min="0" step="0.1"></div>
+          <div class="col-6">
+            <label>סוג כבל</label>
+            <select name="סוג כבל">
+              <option value="">בחר</option><option>NYY</option><option>2 גיד</option><option>4 גיד</option><option>רב-גידי</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label>מעביר כבל</label>
+            <div class="checkboxes">
+              <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="מריכף"> מריכף</label>
+              <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="מרירון"> מרירון</label>
+              <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="תעלת אצבע"> תעלת אצבע</label>
+              <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="תעלה כפולה"> תעלה כפולה</label>
+            </div>
+          </div>
+          <div class="col-3"><label>קיים V24</label><select name="קיים V24"><option></option><option>כן</option><option>לא</option></select></div>
+          <div class="col-3"><label>נדרש הוספת ספק</label><select name="נדרש הוספת ספק"><option></option><option>כן</option><option>לא</option></select></div>
         </div>
-        <div class="col-3">
-          <label>קיים V24</label>
-          <select name="קיים V24">
-            <option value="">בחר</option>
-            <option>כן</option>
-            <option>לא</option>
-          </select>
-        </div>
-        <div class="col-3">
-          <label>נדרש הוספת ספק</label>
-          <select name="נדרש הוספת ספק">
-            <option value="">בחר</option>
-            <option>כן</option>
-            <option>לא</option>
-          </select>
-        </div>
-      </div>
 
-      <h2>נתוני לוח חשמל</h2>
-      <div class="grid">
-        <div class="col-4">
-          <label>מידות לוח – רוחב (מ״מ)</label>
-          <input name="מידות לוח רוחב" type="number" min="0">
+        <h2>נתוני לוח חשמל</h2>
+        <div class="grid">
+          <div class="col-4"><label>מידות לוח – רוחב (מ״מ)</label><input type="number" name="מידות לוח רוחב" min="0"></div>
+          <div class="col-4"><label>מידות לוח – גובה (מ״מ)</label><input type="number" name="מידות לוח גובה" min="0"></div>
+          <div class="col-4"><label>מידות לוח – עומק (מ״מ)</label><input type="number" name="מידות לוח עומק" min="0"></div>
+          <div class="col-3"><label>האם קיים ניתוק בלוח</label><select name="ניתוק בלוח"><option></option><option>כן</option><option>לא</option></select></div>
+          <div class="col-3"><label>הלוח מחורץ</label><select name="הלוח מחורץ"><option></option><option>כן</option><option>לא</option></select></div>
+          <div class="col-3"><label>הלוח אטום</label><select name="הלוח אטום"><option></option><option>כן</option><option>לא</option></select></div>
+          <div class="col-3"><label>מספר הנחירים הנדרש</label><input type="number" name="מספר נחירים" min="0"></div>
+          <div class="col-3"><label>האם יש מחיצות בלוח</label><select name="יש מחיצות"><option></option><option>כן</option><option>לא</option></select></div>
+          <div class="col-9"><label>במידה ויש מחיצות – פרט מיקומים</label><input name="מיקומי מחיצות"></div>
+          <div class="col-12"><label>הערות נוספות בנוגע ללוח חשמל</label><textarea name="הערות לוח חשמל"></textarea></div>
         </div>
-        <div class="col-4">
-          <label>מידות לוח – גובה (מ״מ)</label>
-          <input name="מידות לוח גובה" type="number" min="0">
-        </div>
-        <div class="col-4">
-          <label>מידות לוח – עומק (מ״מ)</label>
-          <input name="מידות לוח עומק" type="number" min="0">
-        </div>
-        <div class="col-3">
-          <label>האם קיים ניתוק בלוח</label>
-          <select name="ניתוק בלוח"><option></option><option>כן</option><option>לא</option></select>
-        </div>
-        <div class="col-3">
-          <label>הלוח מחורץ</label>
-          <select name="הלוח מחורץ"><option></option><option>כן</option><option>לא</option></select>
-        </div>
-        <div class="col-3">
-          <label>הלוח אטום</label>
-          <select name="הלוח אטום"><option></option><option>כן</option><option>לא</option></select>
-        </div>
-        <div class="col-3">
-          <label>מספר הנחירים הנדרש</label>
-          <input name="מספר נחירים" type="number" min="0">
-        </div>
-        <div class="col-3">
-          <label>האם יש מחיצות בלוח</label>
-          <select name="יש מחיצות"><option></option><option>כן</option><option>לא</option></select>
-        </div>
-        <div class="col-9">
-          <label>במידה ויש מחיצות – פרט מיקומים</label>
-          <input name="מיקומי מחיצות" type="text">
-        </div>
-        <div class="col-12">
-          <label>הערות נוספות בנוגע ללוח חשמל</label>
-          <textarea name="הערות לוח חשמל"></textarea>
-        </div>
-      </div>
 
-      <h2>אביזרים נדרשים להצעה</h2>
-      <p class="muted">הוסף שורות לפי הצורך.</p>
-      <table id="itemsTable" aria-label="אביזרים">
-        <thead>
-          <tr>
-            <th>אביזר</th>
-            <th>כמות</th>
-            <th>מיקום</th>
-            <th>מהות התקלה/הדרישה</th>
-            <th>מה נדרש על מנת לבצע</th>
-            <th>מחיקה</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div class="actions">
-        <button type="button" class="ghost" onclick="addItemRow()">הוסף שורה</button>
-      </div>
-
-      <h2>תנאי שטח</h2>
-      <div class="grid">
-        <div class="col-4">
-          <label>גובה ההתקנה (מ׳)</label>
-          <input name="גובה התקנה" type="number" min="0" step="0.1">
+        <h2>אביזרים נדרשים להצעה</h2>
+        <p class="muted">הוסף שורות לפי הצורך.</p>
+        <table id="itemsTable" class="responsive" aria-label="אביזרים">
+          <thead>
+            <tr><th>אביזר</th><th>כמות</th><th>מיקום</th><th>מהות התקלה/הדרישה</th><th>מה נדרש על מנת לבצע</th><th>מחיקה</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="actions">
+          <button type="button" class="ghost" onclick="addItemRow()">הוסף שורה</button>
         </div>
-        <div class="col-4">
-          <label>התקנה בגובה</label>
-          <select name="התקנה בגובה"><option></option><option>כן</option><option>לא</option></select>
-        </div>
-        <div class="col-4">
-          <label>נדרשת במת הרמה</label>
-          <input name="במת הרמה" type="text">
-        </div>
-        <div class="col-12">
-          <label>תנאי שטח נוספים</label>
-          <textarea name="תנאי שטח נוספים"></textarea>
-        </div>
-      </div>
 
-      <h2>הערות כלליות</h2>
-      <textarea name="הערות כלליות"></textarea>
+        <h2>תנאי שטח</h2>
+        <div class="grid">
+          <div class="col-4"><label>גובה ההתקנה (מ׳)</label><input type="number" name="גובה התקנה" min="0" step="0.1"></div>
+          <div class="col-4"><label>התקנה בגובה</label><select name="התקנה בגובה"><option></option><option>כן</option><option>לא</option></select></div>
+          <div class="col-4"><label>נדרשת במת הרמה</label><input name="במת הרמה"></div>
+          <div class="col-12"><label>תנאי שטח נוספים</label><textarea name="תנאי שטח נוספים"></textarea></div>
+        </div>
 
-      <div class="actions">
-        <button type="submit" class="primary">שלח</button>
-        <button type="reset" class="ghost">נקה טופס</button>
-      </div>
+        <h2>הערות כלליות</h2>
+        <textarea name="הערות כלליות"></textarea>
 
-      <p class="footer note">הערה: יש להחליף את כתובת ה-Formspree בשורה הראשונה של הטופס לפני פרסום.</p>
-      <input type="hidden" name="_subject" value="בקשה חדשה להצעת מחיר">
-      <input type="hidden" name="_format" value="plain">
-    </form>
+        <div class="actions">
+          <button type="submit" class="primary">שלח</button>
+          <button type="reset" class="ghost">נקה טופס</button>
+        </div>
+
+        <p class="footer">טיפ: להעלות קבצים `logo.png` ו-`background.png` לשורש הריפו לשילוב לוגו ורקע.</p>
+      </form>
+    </div>
   </div>
 
   <script>
-    const ACCESSORIES = [
-      "", "גלאי", "בסיס", "הגבהה", "לחצן אדום", "לחצן צהוב", "לחצן אדום מוגן מים",
-      "כרטיס 723", "כרטיס 741", "כרטיס 705", "כרטיס 805",
-      "מנורת סימון", "קופסת כרטיסים", "קופסת חיבורים", "כובע לגלאי בלוח",
-      "FLAP", "צופר חיצוני", "צופר פנימי", "רמקול שקוע", "רמקול ירח", "שופר",
-      "פנל משנה", "אחר"
-    ];
-
-    function accessorySelect(name) {
-      const sel = document.createElement('select');
-      sel.name = name;
-      for (const opt of ACCESSORIES) {
-        const o = document.createElement('option');
-        o.value = opt;
-        o.textContent = opt;
-        sel.appendChild(o);
-      }
-      return sel;
+    const ACCESSORIES=["","גלאי","בסיס","הגבהה","לחצן אדום","לחצן צהוב","לחצן אדום מוגן מים","כרטיס 723","כרטיס 741","כרטיס 705","כרטיס 805","מנורת סימון","קופסת כרטיסים","קופסת חיבורים","כובע לגלאי בלוח","FLAP","צופר חיצוני","צופר פנימי","רמקול שקוע","רמקול ירח","שופר","פנל משנה","אחר"];
+    function accessorySelect(name){const sel=document.createElement('select');sel.name=name;for(const opt of ACCESSORIES){const o=document.createElement('option');o.value=opt;o.textContent=opt;sel.appendChild(o)}return sel}
+    function addItemRow(){const tbody=document.querySelector('#itemsTable tbody');const tr=document.createElement('tr');
+      const td1=document.createElement('td');td1.appendChild(accessorySelect('אביזר[]'));
+      const td2=document.createElement('td');const qty=document.createElement('input');qty.type='number';qty.min='0';qty.name='כמות[]';td2.appendChild(qty);
+      const td3=document.createElement('td');const loc=document.createElement('input');loc.type='text';loc.name='מיקום[]';td3.appendChild(loc);
+      const td4=document.createElement('td');const issue=document.createElement('input');issue.type='text';issue.name='מהות התקלה/הדרישה[]';td4.appendChild(issue);
+      const td5=document.createElement('td');const req=document.createElement('input');req.type='text';req.name='מה נדרש על מנת לבצע[]';td5.appendChild(req);
+      const td6=document.createElement('td');const del=document.createElement('button');del.type='button';del.textContent='מחיקה';del.onclick=()=>tr.remove();td6.appendChild(del);
+      tr.append(td1,td2,td3,td4,td5,td6);tbody.appendChild(tr);
+      addLabels();
     }
-
-    function addItemRow() {
-      const tbody = document.querySelector('#itemsTable tbody');
-      const tr = document.createElement('tr');
-
-      const td1 = document.createElement('td');
-      td1.appendChild(accessorySelect('אביזר[]'));
-
-      const td2 = document.createElement('td');
-      const qty = document.createElement('input');
-      qty.type = 'number'; qty.min = '0'; qty.name = 'כמות[]';
-      td2.appendChild(qty);
-
-      const td3 = document.createElement('td');
-      const loc = document.createElement('input');
-      loc.type = 'text'; loc.name = 'מיקום[]';
-      td3.appendChild(loc);
-
-      const td4 = document.createElement('td');
-      const issue = document.createElement('input');
-      issue.type = 'text'; issue.name = 'מהות התקלה/הדרישה[]';
-      td4.appendChild(issue);
-
-      const td5 = document.createElement('td');
-      const req = document.createElement('input');
-      req.type = 'text'; req.name = 'מה נדרש על מנת לבצע[]';
-      td5.appendChild(req);
-
-      const td6 = document.createElement('td');
-      const del = document.createElement('button');
-      del.type = 'button'; del.textContent = 'מחיקה';
-      del.onclick = () => tr.remove();
-      td6.appendChild(del);
-
-      tr.append(td1, td2, td3, td4, td5, td6);
-      tbody.appendChild(tr);
+    function addLabels(){const tbl=document.getElementById('itemsTable');if(!tbl)return;
+      const heads=[...tbl.querySelectorAll('thead th')].map(th=>th.textContent.trim());
+      tbl.querySelectorAll('tbody tr').forEach(tr=>[...tr.children].forEach((td,i)=>td.setAttribute('data-label',heads[i]||'')));
     }
-
-    // create one initial row
     addItemRow();
-
-    // Basic client-side guard to prevent empty submissions
-    document.getElementById('rfqForm').addEventListener('submit', (e) => {
-      const tech = e.target.querySelector('input[name="שם הטכנאי"]');
-      const client = e.target.querySelector('input[name="שם הלקוח"]');
-      if (!tech.value.trim() || !client.value.trim()) {
-        alert('שם הטכנאי ושם הלקוח הם שדות חובה.');
-        e.preventDefault();
-      }
+    document.getElementById('rfqForm').addEventListener('submit',e=>{
+      const tech=e.target.querySelector('input[name="שם הטכנאי"]');
+      const client=e.target.querySelector('input[name="שם הלקוח"]');
+      if(!tech.value.trim()||!client.value.trim()){alert('שם הטכנאי ושם הלקוח הם שדות חובה.');e.preventDefault();}
     });
+    addLabels();
   </script>
 </body>
 </html>
