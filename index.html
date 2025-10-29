@@ -30,7 +30,6 @@
     .actions button{cursor:pointer} .primary{background:var(--brand-red);color:#fff} .ghost{background:#f1f2f5}
     table{width:100%;border-collapse:collapse;background:#fff} th,td{border:1px solid var(--border);padding:8px 10px;text-align:right} th{background:#f8fafc}
     .required::after{content:" *";color:var(--brand-red)} .footer{margin-top:14px;font-size:.85rem;color:var(--muted)}
-    /* טבלאות רספונסיביות ככרטיסים במובייל */
     @media (max-width:768px){
       table.responsive{border:0}
       table.responsive thead{display:none}
@@ -40,14 +39,12 @@
       table.responsive td::before{content:attr(data-label);font-weight:700;color:#444}
       .actions{flex-direction:column}.actions button{width:100%}
     }
-    /* כן/לא כצ'יפים אלגנטיים */
     .yn{display:flex;gap:8px;flex-wrap:wrap}
     .yn input{display:none}
     .yn label{padding:8px 12px;border:1px solid var(--border);border-radius:999px;cursor:pointer;background:#fff}
     .yn input:checked+label{border-color:var(--brand-red);box-shadow:0 0 0 2px rgba(214,40,40,.15)}
     .yn label::before{content:"";display:inline-block;width:1em;height:1em;margin-left:6px;border:1px solid #cbd5e1;border-radius:4px;vertical-align:-2px}
     .yn input:checked+label::before{content:"✔";display:inline-grid;place-items:center;border-color:var(--brand-red);color:#fff;background:var(--brand-red)}
-    /* מסגרת לכל לוח */
     .board{border:1px solid var(--border);border-radius:14px;padding:12px;margin:10px 0;background:#fff}
     .board .board-head{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:8px}
     .board .del{background:#f1f2f5}
@@ -69,14 +66,19 @@
 
         <h2>פרטי הלקוח</h2>
         <div class="grid">
-          <div class="col-4"><label class="required">שם הטכנאי</label><input name="שם הטכנאי" required></div>
-          <div class="col-4"><label class="required">שם הלקוח</label><input name="שם הלקוח" required></div>
-          <div class="col-4"><label>איש קשר לקריאה</label><input name="איש קשר לקריאה"></div>
+          <div class="col-3"><label class="required">שם הטכנאי</label><input name="שם הטכנאי" required></div>
+          <div class="col-3"><label class="required">שם הלקוח</label><input name="שם הלקוח" required></div>
+          <div class="col-3"><label>מספר רכזת</label><input name="מספר רכזת"></div>
+          <div class="col-3"><label>שם בסיס</label><input name="שם בסיס"></div>
+
+          <div class="col-6"><label>מקום באתר</label><input name="מקום באתר"></div>
+          <div class="col-6"><label>מקום בבסיס</label><input name="מקום בבסיס"></div>
+
+          <div class="col-6"><label>איש קשר לקריאה</label><input name="איש קשר לקריאה"></div>
           <div class="col-6"><label>כתובת לקריאה</label><input name="כתובת לקריאה"></div>
-          <div class="col-6"><label>מיקום באתר לו מיועדת ההצעה</label><input name="מיקום באתר"></div>
-          <div class="col-6"><label>איש קשר מלווה בסיור מטעם הלקוח</label><input name="איש קשר מלווה"></div>
-          <div class="col-6"><label>שם איש קשר – מזמין ההצעה מטעם הלקוח</label><input name="שם איש קשר מזמין"></div>
+
           <div class="col-12"><label>מהות העבודה</label><textarea name="מהות העבודה"></textarea></div>
+          <div class="col-12"><label>נתוני לוח החשמל</label><textarea name="נתוני לוח החשמל"></textarea></div>
         </div>
 
         <h2>פרטים ברכזת</h2>
@@ -113,6 +115,7 @@
               <label class="chip"><input type="checkbox" name="מעביר כבל[]" value="תעלה כפולה"> תעלה כפולה</label>
             </div>
           </div>
+
           <div class="col-3">
             <label>קיים V24</label>
             <div class="yn">
@@ -129,12 +132,30 @@
           </div>
         </div>
 
-        <h2>נתוני לוח חשמל</h2>
+        <h2>נתוני לוח החשמל</h2>
         <div id="boards"></div>
         <div class="actions"><button type="button" class="ghost" id="addBoardBtn">הוסף לוח</button></div>
 
+        <h2>נתוני כיבוי בחדר או חלל</h2>
+        <div class="board">
+          <div class="muted" style="margin-bottom:6px">מידות</div>
+          <table class="responsive" aria-label="נתוני כיבוי – מידות">
+            <thead><tr><th>רוחב (מ״מ)</th><th>גובה (מ״מ)</th><th>עומק (מ״מ)</th></tr></thead>
+            <tbody>
+              <tr>
+                <td data-label="רוחב (מ״מ)"><input type="number" name="כיבוי_רוחב" min="0"></td>
+                <td data-label="גובה (מ״מ)"><input type="number" name="כיבוי_גובה" min="0"></td>
+                <td data-label="עומק (מ״מ)"><input type="number" name="כיבוי_עומק" min="0"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="grid">
+            <div class="col-12"><label>הערות</label><textarea name="כיבוי_הערות"></textarea></div>
+          </div>
+        </div>
+
         <h2>אביזרים נדרשים להצעה</h2>
-        <p class="muted">השארנו רק: אביזר, כמות, הערה.</p>
+        <p class="muted">אביזר, כמות, הערה.</p>
         <table id="itemsTable" class="responsive" aria-label="אביזרים">
           <thead><tr><th>אביזר</th><th>כמות</th><th>הערה</th><th>מחיקה</th></tr></thead>
           <tbody></tbody>
@@ -152,7 +173,7 @@
             </div>
           </div>
           <div class="col-4">
-            <label>נדרשת במת הרמה</label>
+            <label>במת הרמה</label>
             <div class="yn">
               <input type="radio" id="platfy" name="במת הרמה" value="כן"><label for="platfy">כן</label>
               <input type="radio" id="platfn" name="במת הרמה" value="לא"><label for="platfn">לא</label>
@@ -169,15 +190,21 @@
           <button type="reset" class="ghost">נקה טופס</button>
         </div>
 
-        <p class="footer">טיפ: העלה `logo.png` ו־`background.png` לשורש הריפו ללוגו ורקע.</p>
+        <p class="footer">העלה `logo.png` ו־`background.png` לשורש הריפו ללוגו ורקע.</p>
       </form>
     </div>
   </div>
 
   <script>
-    /* צמצום טבלת אביזרים: אביזר, כמות, הערה */
-    const ACCESSORIES=["","גלאי","בסיס","הגבהה","לחצן אדום","לחצן צהוב","לחצן אדום מוגן מים","כרטיס 723","כרטיס 741","כרטיס 705","כרטיס 805","מנורת סימון","קופסת כרטיסים","קופסת חיבורים","כובע לגלאי בלוח","FLAP","צופר חיצוני","צופר פנימי","רמקול שקוע","רמקול ירח","שופר","פנל משנה","אחר"];
+    /* אביזרים: הוספת AKSA PRO */
+    const ACCESSORIES=[
+      "","גלאי","בסיס","הגבהה","לחצן אדום","לחצן צהוב","לחצן אדום מוגן מים",
+      "כרטיס 723","כרטיס 741","כרטיס 705","כרטיס 805","מנורת סימון","קופסת כרטיסים",
+      "קופסת חיבורים","כובע לגלאי בלוח","FLAP","צופר חיצוני","צופר פנימי",
+      "רמקול שקוע","רמקול ירח","שופר","פנל משנה","AKSA PRO","אחר"
+    ];
     function accessorySelect(name){const sel=document.createElement('select');sel.name=name;for(const opt of ACCESSORIES){const o=document.createElement('option');o.value=opt;o.textContent=opt;sel.appendChild(o)}return sel}
+
     function addItemRow(){
       const tbody=document.querySelector('#itemsTable tbody'); const tr=document.createElement('tr');
       const td1=document.createElement('td'); td1.setAttribute('data-label','אביזר'); td1.appendChild(accessorySelect('אביזר[]'));
@@ -187,7 +214,7 @@
       tr.append(td1,td2,td3,td4); tbody.appendChild(tr);
     }
 
-    /* לוחות חשמל: הפרדת טבלה 2 (רוחב/גובה/עומק) ושדות שמחוצה לה, וכפתור "הוסף לוח" */
+    /* לוחות חשמל: שם לוח, טבלת מידות, ושדות מחוץ לטבלה. הסרה: "מתחת ללוח". שינוי תווית "מספר נחירים". */
     let boardIdx=0;
     function ynGroup(name, idBase){
       const wrap=document.createElement('div'); wrap.className='yn';
@@ -205,7 +232,12 @@
           <strong>לוח ${boardIdx}</strong>
           <button type="button" class="del" aria-label="מחיקת לוח">מחק לוח</button>
         </div>
-        <div class="muted" style="margin-bottom:6px">טבלה 2 – מידות</div>
+
+        <div class="grid">
+          <div class="col-6"><label>שם הלוח</label><input name="לוח_${boardIdx}_שם"></div>
+        </div>
+
+        <div class="muted" style="margin:8px 0 6px">טבלה 2 – מידות</div>
         <table class="responsive" aria-label="טבלה 2 – מידות">
           <thead><tr><th>רוחב (מ״מ)</th><th>גובה (מ״מ)</th><th>עומק (מ״מ)</th></tr></thead>
           <tbody>
@@ -217,25 +249,23 @@
           </tbody>
         </table>
 
-        <div class="grid">
+        <div class="grid" style="margin-top:8px">
           <div class="col-3"><label>מחורץ</label><div id="g_${boardIdx}_groove" class="yn"></div></div>
           <div class="col-3"><label>אטום</label><div id="g_${boardIdx}_seal" class="yn"></div></div>
           <div class="col-3"><label>מחיצות בנפרד</label><div id="g_${boardIdx}_parts_sep" class="yn"></div></div>
-          <div class="col-3"><label>מחיצות צמודות</label><div id="g_${boardIdx}_parts_adj" class="yn"></div></div>
+          <div class="col-3"><label>מחיצות צמודות אחת לשנייה</label><div id="g_${boardIdx}_parts_adj" class="yn"></div></div>
 
-          <div class="col-3"><label>מתחת ללוח</label><div id="g_${boardIdx}_under" class="yn"></div></div>
-          <div class="col-3"><label>מתחת – מספר נחירים</label><input type="number" name="לוח_${boardIdx}_נחירים_מתחת" min="0"></div>
+          <div class="col-3"><label>מספר נחירים</label><input type="number" name="לוח_${boardIdx}_נחירים" min="0"></div>
 
           <div class="col-6"><label>מיקומי מחיצות</label><input name="לוח_${boardIdx}_מיקומי_מחיצות"></div>
           <div class="col-12"><label>הערות</label><input name="לוח_${boardIdx}_הערות"></div>
         </div>
       `;
-      // יצירת קבוצות כן/לא לכל שדה לוגי
+      // כן/לא
       wrap.querySelector('#g_'+boardIdx+'_groove').appendChild(ynGroup('לוח_'+boardIdx+'_מחורץ','groove'+boardIdx));
       wrap.querySelector('#g_'+boardIdx+'_seal').appendChild(ynGroup('לוח_'+boardIdx+'_אטום','seal'+boardIdx));
       wrap.querySelector('#g_'+boardIdx+'_parts_sep').appendChild(ynGroup('לוח_'+boardIdx+'_מחיצות_בנפרד','partssep'+boardIdx));
       wrap.querySelector('#g_'+boardIdx+'_parts_adj').appendChild(ynGroup('לוח_'+boardIdx+'_מחיצות_צמודות','partsadj'+boardIdx));
-      wrap.querySelector('#g_'+boardIdx+'_under').appendChild(ynGroup('לוח_'+boardIdx+'_מתחת_ללוח','under'+boardIdx));
 
       wrap.querySelector('.del').onclick=()=>wrap.remove();
       document.getElementById('boards').appendChild(wrap);
@@ -255,12 +285,11 @@
     reqAddr.addEventListener('input',checkAddr);
     freeAddr.addEventListener('input',checkAddr);
 
-    /* שורת התחלה */
-    addBoard(); // לוח ראשון ברירת מחדל
-    (function initItems(){ const btn=document.createElement('button'); btn.type='button'; })();
+    /* שורות התחלה */
+    addBoard();
     (function firstItem(){ addItemRow(); })();
 
-    /* מניעת שליחה אם יש שגיאת כתובות */
+    /* מניעת שליחה אם יש שגיאת כתובות וחובה מינימלית */
     document.getElementById('rfqForm').addEventListener('submit',e=>{
       const tech=e.target.querySelector('input[name="שם הטכנאי"]');
       const client=e.target.querySelector('input[name="שם הלקוח"]');
