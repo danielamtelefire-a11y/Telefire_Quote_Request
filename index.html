@@ -616,18 +616,21 @@
       try {
         const response = await fetch(this.action, {
           method: 'POST',
-          body: formData
+          body: formData,
+          mode: 'cors'
         });
         
-        if (response.ok) {
+        if (response.ok || response.redirected) {
           const result = await response.text();
           document.body.innerHTML = result;
         } else {
-          throw new Error('שגיאה בשליחה');
+          const errorText = await response.text();
+          console.error('Response error:', errorText);
+          throw new Error('שגיאה בשליחה - ' + response.status);
         }
       } catch (error) {
-        alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב.');
-        console.error(error);
+        alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב.\n\nפרטים: ' + error.message);
+        console.error('Submit error:', error);
       } finally {
         document.getElementById('loadingOverlay').classList.remove('active');
       }
