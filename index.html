@@ -163,16 +163,7 @@
           </div>
         </div>
 
-        <!-- תמונות תשתית -->
-        <div class="photo-section">
-          <label for="photos-infrastructure" class="photo-btn">
-            <span class="photo-icon">📷</span>
-            <span>הוסף תמונות תשתית (עד 2)</span>
-            <input type="file" id="photos-infrastructure" accept="image/*" multiple data-category="תשתית" data-max="2" class="photo-input">
-          </label>
-          <div class="photo-preview" id="preview-infrastructure"></div>
-          <div class="photo-info">גודל מקסימלי: 1.5MB לתמונה | תמונות ידחסו אוטומטית</div>
-        </div>
+
 
         <h2>נתוני לוח החשמל</h2>
         <div id="boards"></div>
@@ -196,16 +187,7 @@
           </div>
         </div>
 
-        <!-- תמונות כיבוי -->
-        <div class="photo-section">
-          <label for="photos-extinction" class="photo-btn">
-            <span class="photo-icon">📷</span>
-            <span>הוסף תמונות כיבוי (עד 2)</span>
-            <input type="file" id="photos-extinction" accept="image/*" multiple data-category="כיבוי" data-max="2" class="photo-input">
-          </label>
-          <div class="photo-preview" id="preview-extinction"></div>
-          <div class="photo-info">גודל מקסימלי: 1.5MB לתמונה | תמונות ידחסו אוטומטית</div>
-        </div>
+
 
         <h2>אביזרים נדרשים להצעה</h2>
         <p class="muted">אביזר, כמות, הערה.</p>
@@ -215,16 +197,7 @@
         </table>
         <div class="actions"><button type="button" class="ghost" onclick="addItemRow()">הוסף שורה</button></div>
 
-        <!-- תמונות אביזרים -->
-        <div class="photo-section">
-          <label for="photos-accessories" class="photo-btn">
-            <span class="photo-icon">📷</span>
-            <span>הוסף תמונות אביזרים (עד 2)</span>
-            <input type="file" id="photos-accessories" accept="image/*" multiple data-category="אביזרים" data-max="2" class="photo-input">
-          </label>
-          <div class="photo-preview" id="preview-accessories"></div>
-          <div class="photo-info">גודל מקסימלי: 1.5MB לתמונה | תמונות ידחסו אוטומטית</div>
-        </div>
+
 
         <h2>תנאי שטח</h2>
         <div class="grid">
@@ -246,16 +219,7 @@
           <div class="col-12"><label>תנאי שטח נוספים</label><textarea name="תנאי שטח נוספים"></textarea></div>
         </div>
 
-        <!-- תמונות תנאי שטח -->
-        <div class="photo-section">
-          <label for="photos-field" class="photo-btn">
-            <span class="photo-icon">📷</span>
-            <span>הוסף תמונות תנאי שטח (עד 2)</span>
-            <input type="file" id="photos-field" accept="image/*" multiple data-category="תנאי_שטח" data-max="2" class="photo-input">
-          </label>
-          <div class="photo-preview" id="preview-field"></div>
-          <div class="photo-info">גודל מקסימלי: 1.5MB לתמונה | תמונות ידחסו אוטומטית</div>
-        </div>
+
 
         <h2>הערות כלליות</h2>
         <textarea name="הערות כלליות"></textarea>
@@ -603,13 +567,19 @@
         return;
       }
       
-      document.getElementById('loadingOverlay').classList.add('active');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      if (loadingOverlay) {
+        loadingOverlay.classList.add('active');
+      }
       
       const formData = new FormData(this);
       
+      // שליחת תמונות בפורמט שMake יכול לקרוא
+      let photoIndex = 0;
       for (const category in allPhotos) {
         for (const file of allPhotos[category]) {
-          formData.append('תמונות[]', file);
+          formData.append(`תמונה_${photoIndex}`, file, file.name);
+          photoIndex++;
         }
       }
       
@@ -632,7 +602,9 @@
         alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב.\n\nפרטים: ' + error.message);
         console.error('Submit error:', error);
       } finally {
-        document.getElementById('loadingOverlay').classList.remove('active');
+        if (loadingOverlay) {
+          loadingOverlay.classList.remove('active');
+        }
       }
     });
 
