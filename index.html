@@ -222,7 +222,7 @@
           <label for="photos" class="photo-btn">
             <span class="photo-icon">📷</span>
             <span>הוסף תמונה</span>
-            <input type="file" id="photos" accept="image/*" name="תמונה">
+            <input type="file" id="photos" accept="image/*" name="image">
           </label>
           <div class="photo-preview" id="photo-preview"></div>
           <div class="photo-info">גודל מקסימלי: 5MB | תמונה תידחס אוטומטית אם נדרש</div>
@@ -420,11 +420,11 @@
       const formData = new FormData(this);
       
       // דחיסת התמונה לפני שליחה
-      const photoInput = this.querySelector('input[name="תמונה"]');
+      const photoInput = this.querySelector('input[name="image"]');
       if (photoInput && photoInput.files.length > 0) {
         const originalFile = photoInput.files[0];
         const compressedFile = await compressImage(originalFile);
-        formData.set('תמונה', compressedFile, compressedFile.name);
+        formData.set('image', compressedFile, compressedFile.name);
       }
       
       try {
